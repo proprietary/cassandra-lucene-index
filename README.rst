@@ -290,3 +290,5 @@ subset of the cluster nodes will be hit, saving precious resources:
 This last is the basis for `Hadoop, Spark and other MapReduce frameworks support <doc/documentation.rst#spark-and-hadoop>`__.
 
 Please, refer to the comprehensive `Stratio’s Cassandra Lucene Index documentation <doc/documentation.rst>`__.
+
+Please see Please see https://www.instaclustr.com/support/documentation/announcements/instaclustr-open-source-project-status/ for Instaclustr support status of this project
