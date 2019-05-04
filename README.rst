@@ -1,13 +1,17 @@
 ================================
+Cassandra Lucene Index
+================================
+Instaclustr maintains this fork of the Cassandra Lucene index after Stratio (the orginal developers) discontinued support. See https://www.instaclustr.com/instaclustr-support-cassandra-lucene-index/ for details.
+
+================================
 Stratio’s Cassandra Lucene Index
 ================================
 
-Stratio’s Cassandra Lucene Index, derived from `Stratio Cassandra <https://github.com/Stratio/stratio-cassandra>`__, is
+Stratio’s Cassandra Lucene Index is
 a plugin for `Apache Cassandra <http://cassandra.apache.org/>`__ that extends its index functionality to provide near
 real time search such as ElasticSearch or Solr, including `full text search <http://en.wikipedia.org/wiki/Full_text_search>`__
 capabilities and free multivariable, geospatial and bitemporal search. It is achieved through an `Apache Lucene <http://lucene.apache.org/>`__
-based implementation of Cassandra secondary indexes, where each node of the cluster indexes its own data. Stratio’s
-Cassandra indexes are one of the core modules on which `Stratio’s BigData platform <http://www.stratio.com/>`__ is based.
+based implementation of Cassandra secondary indexes, where each node of the cluster indexes its own data. 
 
 .. image:: /doc/resources/architecture.png
    :width: 100%
