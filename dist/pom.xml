@@ -9,7 +9,7 @@
     <parent>
         <artifactId>cassandra-lucene-index-parent</artifactId>
         <groupId>com.stratio.cassandra</groupId>
-        <version>3.11.4.0</version>
+        <version>3.11.8.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 

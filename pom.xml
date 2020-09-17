@@ -33,7 +33,7 @@
     <packaging>pom</packaging>
     <groupId>com.stratio.cassandra</groupId>
     <artifactId>cassandra-lucene-index-parent</artifactId>
-    <version>3.11.4.0</version>
+    <version>3.11.8.0</version>
     <name>Cassandra Lucene index</name>
     <description>Cassandra Lucene index</description>
 
@@ -76,7 +76,7 @@
     </developers>
 
     <properties>
-        <cassandra.version>3.11.4</cassandra.version>
+        <cassandra.version>3.11.8</cassandra.version>
 
         <jackson.version>2.8.4</jackson.version>
         <jacoco-IT-argline></jacoco-IT-argline>
