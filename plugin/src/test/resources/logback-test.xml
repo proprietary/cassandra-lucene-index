@@ -17,6 +17,6 @@
 -->
 <configuration scan="false">
 
-    <logger level="DEBUG" name="com.stratio"/>
+    <logger level="DEBUG" name="com.instaclustr"/>
 
 </configuration>

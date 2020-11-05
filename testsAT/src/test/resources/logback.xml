@@ -28,7 +28,7 @@
         <appender-ref ref="STDOUT" />
     </root>
 
-    <logger level="DEBUG" name="com.stratio.cassandra"/>
+    <logger level="DEBUG" name="com.instaclustr"/>
     <logger level="OFF" name="org.apache.cassandra"/>
     <logger level="ERROR" name="com.datastax.driver"/>
     <logger level="DEBUG" name="TEST"/>

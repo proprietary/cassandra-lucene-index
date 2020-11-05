@@ -23,19 +23,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>com.stratio</groupId>
-        <artifactId>parent</artifactId>
-        <version>0.9.0</version>
-    </parent>
-
     <inceptionYear>2014</inceptionYear>
     <packaging>pom</packaging>
-    <groupId>com.stratio.cassandra</groupId>
+    <groupId>com.instaclustr</groupId>
     <artifactId>cassandra-lucene-index-parent</artifactId>
-    <version>3.11.8.0</version>
+    <version>3.11.8.1</version>
     <name>Cassandra Lucene index</name>
     <description>Cassandra Lucene index</description>
+    <url>https://github.com/instaclustr/cassandra-lucene-index</url>
 
     <modules>
         <module>builder</module>
@@ -51,9 +46,9 @@
     </licenses>
 
     <scm>
-        <url>https://github.com/Stratio/cassandra-lucene-index</url>
-        <connection>scm:git:git:@github.com:Stratio/cassandra-lucene-index.git</connection>
-        <developerConnection>scm:git:git@github.com:Stratio/cassandra-lucene-index.git</developerConnection>
+        <url>https://github.com/instaclustr/cassandra-lucene-index</url>
+        <connection>scm:git:git:@github.com:instaclustr/cassandra-lucene-index.git</connection>
+        <developerConnection>scm:git:git@github.com:instaclustr/cassandra-lucene-index.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
 
@@ -74,6 +69,22 @@
             <email>eduardoalonso at stratio dot com</email>
         </developer>
     </developers>
+
+    <organization>
+        <name>Instaclustr</name>
+        <url>https://instaclustr.com</url>
+    </organization>
+
+    <distributionManagement>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <properties>
         <cassandra.version>3.11.8</cassandra.version>
@@ -97,6 +108,9 @@
         <maven.compliler.plugin.version>2.3.2</maven.compliler.plugin.version>
         <maven.source.plugin.version>2.2.1</maven.source.plugin.version>
         <maven.javadoc.plugin.version>2.9.1</maven.javadoc.plugin.version>
+
+        <maven.gpg.plugin.version>1.6</maven.gpg.plugin.version>
+        <nexus.staging.maven.plugin.version>1.6.8</nexus.staging.maven.plugin.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -156,4 +170,44 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <!-- Use this profile when releasing. For example: "mvn clean deploy -P release" -->
+        <profile>
+            <id>release</id>
+            <properties>
+                <javadoc.skip>false</javadoc.skip>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>${maven.gpg.plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>${nexus.staging.maven.plugin.version}</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>ossrh</serverId>
+                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <!--Use "mvn nexus-staging:release -P release" to push from the OSSRH staging repo to Maven Central-->
+                            <autoReleaseAfterClose>false</autoReleaseAfterClose>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

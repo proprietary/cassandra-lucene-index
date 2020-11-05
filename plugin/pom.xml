@@ -24,9 +24,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.stratio.cassandra</groupId>
+        <groupId>com.instaclustr</groupId>
         <artifactId>cassandra-lucene-index-parent</artifactId>
-        <version>3.11.8.0</version>
+        <version>3.11.8.1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 

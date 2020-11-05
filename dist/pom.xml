@@ -8,8 +8,8 @@
 
     <parent>
         <artifactId>cassandra-lucene-index-parent</artifactId>
-        <groupId>com.stratio.cassandra</groupId>
-        <version>3.11.8.0</version>
+        <groupId>com.instaclustr</groupId>
+        <version>3.11.8.1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -21,7 +21,7 @@
             <id>package</id>
             <dependencies>
                 <dependency>
-                    <groupId>com.stratio.cassandra</groupId>
+                    <groupId>com.instaclustr</groupId>
                     <artifactId>cassandra-lucene-index-plugin</artifactId>
                     <version>${project.parent.version}</version>
                 </dependency>
