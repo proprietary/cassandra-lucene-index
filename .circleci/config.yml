@@ -33,7 +33,7 @@ jobs:
           root: /tmp/artifacts
           paths:
             - "cassandra-lucene-index-plugin-*.jar"
-            - "cassandra-lucene-index-plugin-*.deb"
+            - "cassandra-lucene-index-plugin_*.deb"
             - "cassandra-lucene-index-plugin-*.rpm"
 
   publish-github-release:
