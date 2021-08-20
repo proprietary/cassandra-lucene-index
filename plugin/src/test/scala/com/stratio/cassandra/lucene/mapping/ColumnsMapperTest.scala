@@ -18,7 +18,6 @@ package com.stratio.cassandra.lucene.mapping
 import java.math.{BigDecimal, BigInteger}
 import java.nio.ByteBuffer
 import java.util.{Date, UUID}
-
 import com.google.common.collect.Lists
 import com.stratio.cassandra.lucene.BaseScalaTest
 import com.stratio.cassandra.lucene.BaseScalaTest._
@@ -27,11 +26,11 @@ import com.stratio.cassandra.lucene.mapping.ColumnsMapper._
 import org.apache.cassandra.db.marshal._
 import org.apache.cassandra.db.rows.{BufferCell, Cell}
 import org.apache.cassandra.schema.ColumnMetadata
-import org.apache.cassandra.utils.UUIDGen
+import org.apache.cassandra.utils.{TimeUUID, UUIDGen}
 import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
+import org.scalatestplus.junit.JUnitRunner
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 /** Tests for [[ColumnsMapper]].
   *
@@ -57,7 +56,7 @@ class ColumnsMapperTest extends BaseScalaTest {
     test(decimal, decimal.getSerializer.serialize(new BigDecimal("7.3")))
     test(uuid, uuid.getSerializer.serialize(UUID.randomUUID))
     test(lexicalUuid, lexicalUuid.getSerializer.serialize(UUID.randomUUID))
-    test(timeUuid, timeUuid.getSerializer.serialize(UUIDGen.getTimeUUID))
+    test(timeUuid, TimeUUID.Generator.nextTimeUUID().toBytes)
     test(timestamp, timestamp.getSerializer.serialize(new Date))
     test(boolean, boolean.getSerializer.serialize(true.asInstanceOf[java.lang.Boolean]))
   }

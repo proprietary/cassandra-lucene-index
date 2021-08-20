@@ -20,7 +20,7 @@ import org.apache.cassandra.db.{Clustering, DecoratedKey, RangeTombstone, Single
 import org.apache.cassandra.index.transactions.IndexTransaction
 import org.apache.cassandra.utils.concurrent.OpOrder
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.collection.mutable.ListBuffer
 
 

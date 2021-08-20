@@ -29,7 +29,7 @@ import org.apache.cassandra.schema.TableMetadata
 import org.slf4j.LoggerFactory
 
 import scala.annotation.tailrec
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 /** Object for validating a [[Schema]] against a [[TableMetadata]].
   *

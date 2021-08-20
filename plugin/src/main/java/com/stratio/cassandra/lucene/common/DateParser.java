@@ -80,7 +80,7 @@ public class DateParser {
                     return formatter.get().parse(string);
                 }
             } else if (value instanceof UUID) {
-                long timestamp = UUIDGen.unixTimestamp((UUID) value);
+                long timestamp = UUIDGen.getAdjustedTimestamp((UUID) value);
                 Date date = new Date(timestamp);
                 return formatter.get().parse(formatter.get().format(date));
             } else if (Number.class.isAssignableFrom(value.getClass())) {

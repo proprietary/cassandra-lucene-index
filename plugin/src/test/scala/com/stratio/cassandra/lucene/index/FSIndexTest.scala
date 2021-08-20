@@ -28,7 +28,7 @@ import org.apache.lucene.util.BytesRef
 import org.junit.Assert.assertEquals
 import org.junit.rules.TemporaryFolder
 import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
+import org.scalatestplus.junit.JUnitRunner
 
 /** Tests for [[FSIndex]].
   *
@@ -41,7 +41,7 @@ class FSIndexTest extends BaseScalaTest {
   val REFRESH_MILLISECONDS: Int = (REFRESH_SECONDS * 1000).toInt
   val WAIT_MILLISECONDS: Int = REFRESH_MILLISECONDS * 2
 
-  def assertCount(docs: DocumentIterator, expected: Int) {
+  def assertCount(docs: DocumentIterator, expected: Int): Unit = {
     var count = 0
     docs.foreach(_ => count += 1)
     assertEquals("Expected " + expected + " documents", expected, count)

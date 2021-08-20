@@ -16,9 +16,8 @@
 package com.stratio.cassandra.lucene.index
 
 import java.nio.file.Path
-
 import com.stratio.cassandra.lucene.util.Logging
-import org.apache.cassandra.io.util.FileUtils
+import org.apache.commons.io.FileUtils
 import org.apache.lucene.analysis.Analyzer
 import org.apache.lucene.document.Document
 import org.apache.lucene.index._
@@ -143,7 +142,7 @@ class FSIndex(
 
   /** Closes the index and removes all its files. */
   def delete() {
-    try close() finally FileUtils.deleteRecursive(path.toFile)
+    try close() finally FileUtils.forceDelete(path.toFile)
   }
 
   /** Returns the total number of documents in this index.

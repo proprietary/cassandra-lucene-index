@@ -17,7 +17,7 @@ package com.stratio.cassandra.lucene.schema.mapping;
 
 import com.stratio.cassandra.lucene.IndexException;
 import com.stratio.cassandra.lucene.schema.mapping.builder.DateMapperBuilder;
-import org.apache.cassandra.utils.UUIDGen;
+import org.apache.cassandra.utils.TimeUUID;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.index.DocValuesType;
 import org.apache.lucene.search.SortField;
@@ -176,7 +176,7 @@ public class DateMapperTest extends AbstractMapperTest {
     public void testBaseTimeUUID() throws ParseException {
         Long expected = new SimpleDateFormat("yyyyMMdd").parse("20161127").getTime();
         DateMapper mapper = dateMapper().pattern("yyyyMMdd").build("name");
-        Long parsed = mapper.base("test", UUIDGen.getTimeUUID(expected));
+        Long parsed = mapper.base("test", TimeUUID.Generator.atUnixMillis(expected).asUUID());
         assertEquals("Base value is not properly parsed", expected, parsed);
     }
 

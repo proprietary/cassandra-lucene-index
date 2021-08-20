@@ -19,7 +19,7 @@ import com.stratio.cassandra.lucene.IndexException;
 import com.stratio.cassandra.lucene.column.Columns;
 import com.stratio.cassandra.lucene.schema.mapping.BitemporalMapper.BitemporalDateTime;
 import com.stratio.cassandra.lucene.schema.mapping.builder.BitemporalMapperBuilder;
-import org.apache.cassandra.utils.UUIDGen;
+import org.apache.cassandra.utils.TimeUUID;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.index.IndexableField;
@@ -207,7 +207,7 @@ public class BitemporalMapperTest extends AbstractMapperTest {
     @Test
     public void testReadFieldFromTimeUUIDColumn() {
         Date date = date("yyyyMMdd", "19821127");
-        UUID uuid = UUIDGen.getTimeUUID(date.getTime());
+        UUID uuid = TimeUUID.Generator.atUnixMillis(date.getTime()).asUUID();
         testReadField("yyyyMMdd", "19821127", uuid);
     }
 

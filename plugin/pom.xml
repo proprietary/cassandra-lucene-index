@@ -26,7 +26,7 @@
     <parent>
         <groupId>com.instaclustr</groupId>
         <artifactId>cassandra-lucene-index-parent</artifactId>
-        <version>4.0.0-1.0.0</version>
+        <version>4.1.0-1.0.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -38,6 +38,7 @@
 
     <properties>
         <version.snowball-stemmer>1.3.0.581.1</version.snowball-stemmer>
+        <version.commons.io>2.7</version.commons.io>
         <version.findbugs>3.0.1</version.findbugs>
         <version.jdeb>1.8</version.jdeb>
         <version.rpm>1.5.0</version.rpm>
@@ -114,6 +115,11 @@
             <artifactId>jsr305</artifactId>
             <version>${version.findbugs}</version>
         </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${version.commons.io}</version>
+        </dependency>
         <!-- test -->
         <dependency>
             <groupId>org.mockito</groupId>
@@ -157,6 +163,13 @@
                         </goals>
                     </execution>
                     <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                    <execution>
                         <id>scala-test-compile</id>
                         <phase>process-test-resources</phase>
                         <goals>
@@ -179,6 +192,7 @@
                             <include>com.spatial4j:*</include>
                             <include>com.github.rholder:*</include>
                             <include>com.fasterxml.jackson.core:*</include>
+                            <include>commons-io:*</include>
                         </includes>
                     </artifactSet>
                     <createDependencyReducedPom>false</createDependencyReducedPom>
@@ -270,82 +284,6 @@
                                     </entries>
                                     <targetDir>${outputDirectory}</targetDir>
                                 </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>patch</id>
-            <properties>
-                <cassandra_home>${project.build.directory}/apache-cassandra-${cassandra.version}</cassandra_home>
-            </properties>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <version>1.7</version>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <configuration>
-                                    <target>
-                                        <delete verbose="true">
-                                            <fileset dir="${cassandra_home}/lib" includes="${project.artifactId}*.jar"/>
-                                        </delete>
-                                        <copy file="${project.build.directory}/${project.build.finalName}.jar"
-                                              toFile="${cassandra_home}/lib/${project.build.finalName}.jar"/>
-
-                                    </target>
-                                </configuration>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>download_and_patch</id>
-            <properties>
-                <cassandra_home>${project.build.directory}/apache-cassandra-${cassandra.version}</cassandra_home>
-            </properties>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <version>1.7</version>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <configuration>
-                                    <target>
-                                        <echo message="Downloading Apache Cassandra"/>
-                                        <get src="http://www.us.apache.org/dist/cassandra/${cassandra.version}/apache-cassandra-${cassandra.version}-bin.tar.gz"
-                                             dest="${project.build.directory}/apache-cassandra-${cassandra.version}-bin.tar.gz"/>
-                                        <echo message="Uncompressing Apache Cassandra"/>
-                                        <gunzip src="${project.build.directory}/apache-cassandra-${cassandra.version}-bin.tar.gz"
-                                                dest="${project.build.directory}/apache-cassandra-${cassandra.version}-bin.tar"/>
-                                        <delete file="${project.build.directory}/apache-cassandra-${cassandra.version}-bin.tar.gz"/>
-                                        <untar src="${project.build.directory}/apache-cassandra-${cassandra.version}-bin.tar"
-                                               dest="${project.build.directory}"/>
-                                        <delete file="${project.build.directory}/apache-cassandra-${cassandra.version}-bin.tar"/>
-                                        <echo message="Patching Apache Cassandra"/>
-                                        <copy file="${project.build.directory}/${project.build.finalName}.jar"
-                                              toFile="${project.build.directory}/apache-cassandra-${cassandra.version}/lib/${project.build.finalName}.jar"/>
-                                        <echo message="Moving Apache Cassandra to ${cassandra_home}"/>
-                                        <move file="${project.build.directory}/apache-cassandra-${cassandra.version}"
-                                              toFile="${cassandra_home}"/>
-                                    </target>
-                                </configuration>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
                             </execution>
                         </executions>
                     </plugin>

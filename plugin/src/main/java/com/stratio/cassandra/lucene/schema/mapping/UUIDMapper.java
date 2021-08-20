@@ -19,6 +19,7 @@ import com.google.common.primitives.Longs;
 import com.stratio.cassandra.lucene.IndexException;
 import com.stratio.cassandra.lucene.util.ByteBufferUtils;
 import org.apache.cassandra.db.marshal.UUIDType;
+import org.apache.cassandra.utils.TimeUUID;
 
 import java.nio.ByteBuffer;
 import java.util.Arrays;
@@ -48,6 +49,9 @@ public class UUIDMapper extends KeywordMapper {
         if (value instanceof UUID) {
             UUID uuid = (UUID) value;
             return serialize(uuid);
+        } else if (value instanceof TimeUUID) {
+            UUID uuid = ((TimeUUID) value).asUUID();
+            return serialize(uuid);
         } else if (value instanceof String) {
             try {
                 String string = (String) value;
@@ -57,7 +61,7 @@ public class UUIDMapper extends KeywordMapper {
                 throw new IndexException(e, "Field '{}' with value '{}' can not be parsed as UUID", name, value);
             }
         }
-        throw new IndexException("Field '{}' requires an UUID, but found '{}'", name, value);
+        throw new IndexException("Field '{}' requires an UUID, but found '{}', type '{}'", name, value, value.getClass());
     }
 
     /**

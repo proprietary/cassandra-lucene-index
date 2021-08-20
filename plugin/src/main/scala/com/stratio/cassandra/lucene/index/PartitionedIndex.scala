@@ -17,10 +17,10 @@ package com.stratio.cassandra.lucene.index
 
 import java.io.File
 import java.nio.file.{Path, Paths}
-
 import com.stratio.cassandra.lucene.IndexException
 import com.stratio.cassandra.lucene.util.Logging
-import org.apache.cassandra.io.util.FileUtils.deleteRecursive
+import org.apache.cassandra.io.util
+import org.apache.commons.io.FileUtils
 import org.apache.lucene.analysis.Analyzer
 import org.apache.lucene.document.Document
 import org.apache.lucene.index.Term
@@ -98,7 +98,7 @@ class PartitionedIndex(
 
   /** Closes the index and removes all its files. */
   def delete() {
-    try indexes.foreach(_.delete()) finally if (partitions > 1) deleteRecursive(path.toFile)
+    try indexes.foreach(_.delete()) finally if (partitions > 1) FileUtils.forceDelete(path.toFile)
     logger.info(s"Deleted $name")
   }
 

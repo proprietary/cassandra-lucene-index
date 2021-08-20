@@ -19,10 +19,10 @@ import java.util.concurrent.Callable
 import java.util.function.BiFunction
 import java.util.{Collections, Optional}
 import java.{util => java}
-
 import com.stratio.cassandra.lucene.search.Search
 import com.stratio.cassandra.lucene.util.Logging
 import org.apache.cassandra.cql3.Operator
+import org.apache.cassandra.db.ColumnFamilyStore.FlushReason
 import org.apache.cassandra.db.SinglePartitionReadCommand.Group
 import org.apache.cassandra.db._
 import org.apache.cassandra.db.compaction.CompactionManager
@@ -78,7 +78,7 @@ class Index(table: ColumnFamilyStore, indexMetadata: IndexMetadata)
   private[this] def getBuildIndexTask(): Callable[Unit] =
     new Callable[Unit] {
       override def call(): Unit = {
-        table.forceBlockingFlush
+        table.forceBlockingFlush(FlushReason.INDEX_BUILD_STARTED)
 
         try {
           val viewFragment = table.selectAndReference(View.selectFunction(SSTableSet.CANONICAL))

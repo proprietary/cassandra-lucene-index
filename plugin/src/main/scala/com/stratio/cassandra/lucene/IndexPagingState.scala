@@ -30,7 +30,7 @@ import org.apache.cassandra.db.partitions.PartitionIterator
 import org.apache.cassandra.service.LuceneStorageProxy
 import org.apache.cassandra.service.pager.PagingState
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.collection.mutable
 
 /** The paging state of a CQL query using Lucene. It tracks the primary keys of the last seen rows

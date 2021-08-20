@@ -2,16 +2,14 @@ package com.stratio.cassandra.lucene;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
+import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 
-import com.github.nosan.embedded.cassandra.Cassandra;
-import com.github.nosan.embedded.cassandra.CassandraBuilder;
-import com.github.nosan.embedded.cassandra.Version;
-import com.github.nosan.embedded.cassandra.WorkingDirectoryDestroyer;
+import com.github.nosan.embedded.cassandra.*;
 import com.stratio.cassandra.lucene.util.CassandraConnection;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
@@ -28,8 +26,8 @@ public abstract class PluginTestFramework {
 
     static class NestedSingleton implements BeforeAllCallback, ExtensionContext.Store.CloseableResource {
 
-        public static final String pluginCassandraVersion = System.getProperty("plugin.version", "4.0.0-1.0.0");
-        public static final String cassandraVersion = System.getProperty("cassandra.version", "4.0.0");
+        public static final String pluginCassandraVersion = System.getProperty("plugin.version", "4.1.0-1.0.0");
+        public static final String cassandraVersion = System.getProperty("cassandra.version", "4.1.0");
 
         private static volatile boolean disconnected = false;
         private static volatile boolean initialized = false;
@@ -63,6 +61,16 @@ public abstract class PluginTestFramework {
             builder.jvmOptions("-Xmx1g");
             builder.jvmOptions("-Xms1g");
             builder.workingDirectory(() -> Paths.get("/tmp/cassandra-test/"));
+
+            if (cassandraVersion.endsWith("SNAPSHOT")) {
+                builder.workingDirectoryInitializer(new DefaultWorkingDirectoryInitializer(new CassandraDirectoryProvider() {
+                    @Override
+                    public Path getDirectory(Version version) throws IOException {
+                        return Paths.get(System.getProperty("user.home"), ".embedded-cassandra/cassandra/" + version.toString() + "/apache-cassandra-" + version);
+                    }
+                }));
+            }
+
             builder.workingDirectoryCustomizers((workingDirectory, version) -> {
                 final String pluginDir = System.getProperty("outputDirectory", "../plugin/target");
                 final Path pluginJar = Paths.get(pluginDir, "cassandra-lucene-index-plugin-" + pluginCassandraVersion + ".jar");
@@ -75,8 +83,8 @@ public abstract class PluginTestFramework {
             });
 
             builder.addConfigProperties(new HashMap<String, String>() {{
-                put("enable_sasi_indexes", "true");
-                put("enable_user_defined_functions", "true");
+                put("sasi_indexes_enabled", "true");
+                put("user_defined_functions_enabled", "true");
             }});
 
             builder.workingDirectoryDestroyer(WorkingDirectoryDestroyer.deleteOnly("data"));

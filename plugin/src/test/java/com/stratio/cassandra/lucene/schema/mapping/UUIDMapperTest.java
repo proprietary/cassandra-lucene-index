@@ -20,6 +20,7 @@ import com.stratio.cassandra.lucene.schema.mapping.builder.UUIDMapperBuilder;
 import org.apache.cassandra.db.marshal.AbstractType;
 import org.apache.cassandra.db.marshal.TimeUUIDType;
 import org.apache.cassandra.db.marshal.UUIDType;
+import org.apache.cassandra.utils.TimeUUID;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.index.DocValuesType;
 import org.junit.Test;
@@ -249,7 +250,7 @@ public class UUIDMapperTest extends AbstractMapperTest {
                                   "24f34bb6-89da-11e4-b116-123b93f75cba",
                                   "24f34ce2-89da-11e4-b116-123b93f75cba",
                                   "24f34e0e-89da-11e4-b116-123b93f75cba");
-        testSort(uuids, TimeUUIDType.instance);
+        testSortTimeUUIDs(uuids, TimeUUIDType.instance);
     }
 
     @Test
@@ -293,6 +294,25 @@ public class UUIDMapperTest extends AbstractMapperTest {
                                   "24f34ce2-89da-11e4-b116-123b93f75cba",
                                   "24f34e0e-89da-11e4-b116-123b93f75cba");
         testSort(uuids, UUIDType.instance);
+    }
+
+    private void testSortTimeUUIDs(List<UUID> uuids, final AbstractType<TimeUUID> type) {
+
+        Collections.shuffle(uuids);
+
+        List<UUID> expectedList = new ArrayList<>(uuids);
+        expectedList.sort((UUID o1, UUID o2) -> type.compare(type.decompose(TimeUUID.fromUuid(o1)),
+                                                             type.decompose(TimeUUID.fromUuid(o2))));
+
+        List<UUID> actualList = new ArrayList<>(uuids);
+        actualList.sort(Comparator.comparing(UUIDMapper::serialize));
+
+        assertEquals("Native and term comparisons are different", expectedList.size(), actualList.size());
+        for (int i = 0; i < expectedList.size(); i++) {
+            UUID expectedUUID = expectedList.get(i);
+            UUID actualUUID = actualList.get(i);
+            assertEquals("Native and term comparisons are different", expectedUUID, actualUUID);
+        }
     }
 
     private void testSort(List<UUID> uuids, final AbstractType<UUID> type) {

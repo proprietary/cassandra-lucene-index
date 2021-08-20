@@ -27,7 +27,7 @@ import org.apache.cassandra.schema.TableMetadata
 import org.apache.cassandra.utils.MurmurHash
 import org.apache.commons.lang3.StringUtils
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 /** [[Partitioner]] based on a partition key column. Rows will be stored in an index partition
   * determined by the hash of the specified partition key column. Both partition-directed and token

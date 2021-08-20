@@ -17,7 +17,7 @@ package com.stratio.cassandra.lucene.partitioning
 
 import com.stratio.cassandra.lucene.IndexException
 import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
+import org.scalatestplus.junit.JUnitRunner
 
 /** Tests for [[PartitionerOnToken]].
   *

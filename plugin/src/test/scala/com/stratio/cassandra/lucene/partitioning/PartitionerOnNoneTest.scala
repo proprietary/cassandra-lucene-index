@@ -16,7 +16,7 @@
 package com.stratio.cassandra.lucene.partitioning
 
 import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
+import org.scalatestplus.junit.JUnitRunner
 
 /** Tests for [[PartitionerOnNone]].
   *

@@ -896,8 +896,7 @@ public class BuilderTest {
         assertEquals("to string is wrong", expected, actual);
     }
 
-    @Test(expected = RuntimeException.class)
-    public void testFailingSerialization() {
+    public void testNonFailingSerialization() {
         match("field", new ObjectMapper()).build();
     }
 

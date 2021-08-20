@@ -28,7 +28,7 @@ import org.apache.cassandra.db.rows.Row
 import org.apache.cassandra.db.{DecoratedKey, ReadCommand, ReadQuery, SinglePartitionReadCommand}
 import org.apache.lucene.document.{Document, StoredField}
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.collection.mutable
 
 /** Post processes in the coordinator node the results of a distributed search. In other words,

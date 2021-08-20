@@ -24,7 +24,7 @@ import org.apache.cassandra.dht.{Bounds, Token}
 import org.apache.cassandra.schema.TableMetadata
 import org.apache.cassandra.service.StorageService
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.collection.mutable
 
 /** [[Partitioner]] based on the partition key token. Rows will be stored in an index partition

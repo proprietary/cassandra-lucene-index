@@ -28,7 +28,7 @@ import org.apache.lucene.search.FieldComparator.TermValComparator
 import org.apache.lucene.search._
 import org.apache.lucene.util.BytesRef
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 /** Class for several partition key mappings between Cassandra and Lucene.
   *

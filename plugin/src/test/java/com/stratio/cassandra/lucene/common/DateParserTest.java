@@ -17,6 +17,7 @@ package com.stratio.cassandra.lucene.common;
 
 import com.stratio.cassandra.lucene.IndexException;
 import com.stratio.cassandra.lucene.common.DateParser;
+import org.apache.cassandra.utils.TimeUUID;
 import org.apache.cassandra.utils.UUIDGen;
 import org.junit.Assert;
 import org.junit.Test;
@@ -178,9 +179,9 @@ public class DateParserTest {
 
     @Test
     public void testParseUUID() throws ParseException {
-        UUID uuid = UUIDGen.getTimeUUID(date("yyyy-MM-dd HH:mm", "2015-11-03 06:23").getTime());
+        TimeUUID timeUUID = TimeUUID.Generator.atUnixMillis(date("yyyy-MM-dd HH:mm", "2015-11-03 06:23").getTime());
         Date expected = date("yyyyMMdd", "20151103");
-        assertEquals("yyyyMMdd", uuid, expected);
+        assertEquals("yyyyMMdd", timeUUID.asUUID(), expected);
     }
 
 }

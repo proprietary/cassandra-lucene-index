@@ -19,7 +19,7 @@ import com.google.common.collect.Lists
 import org.apache.cassandra.cql3.FieldIdentifier
 import org.apache.cassandra.db.marshal._
 import org.scalatest.{FunSuite, Matchers}
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 /** Base test.
   *

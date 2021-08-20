@@ -18,6 +18,7 @@ package com.stratio.cassandra.lucene.schema.mapping;
 import com.stratio.cassandra.lucene.IndexException;
 import com.stratio.cassandra.lucene.column.Columns;
 import com.stratio.cassandra.lucene.schema.mapping.builder.DateRangeMapperBuilder;
+import org.apache.cassandra.utils.TimeUUID;
 import org.apache.cassandra.utils.UUIDGen;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.index.IndexableField;
@@ -134,7 +135,8 @@ public class DateRangeMapperTest extends AbstractMapperTest {
 
     @Test
     public void testReadFieldFromTimeUUIDColumn() throws ParseException {
-        UUID uuid = UUIDGen.getTimeUUID(new SimpleDateFormat("yyyyMMdd").parse("20161127").getTime());
+        long time = new SimpleDateFormat("yyyyMMdd").parse("20161127").getTime();
+        UUID uuid = TimeUUID.Generator.atUnixMillis(time).asUUID();
         testReadField("yyyyMMdd", "20161127", uuid);
     }
 

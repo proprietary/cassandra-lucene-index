@@ -35,7 +35,7 @@ import org.apache.lucene.document.Document
 import org.apache.lucene.index.{IndexableField, Term}
 import org.apache.lucene.search.{Query, Sort, SortField}
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.collection.mutable
 
 /** Lucene index service provider.

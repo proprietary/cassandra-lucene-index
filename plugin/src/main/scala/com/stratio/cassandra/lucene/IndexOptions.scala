@@ -25,7 +25,7 @@ import com.stratio.cassandra.lucene.util.SchemaValidator
 import org.apache.cassandra.db.Directories
 import org.apache.cassandra.schema.{IndexMetadata, TableMetadata}
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 /** Index user-specified configuration options parser.
   *
@@ -164,7 +164,7 @@ object IndexOptions {
       index.map(
         index => {
           val directories = new Directories(table)
-          val basePath = directories.getDirectoryForNewSSTables.getAbsolutePath
+          val basePath = directories.getDirectoryForNewSSTables.toPath.toAbsolutePath
           Paths.get(basePath + File.separator + INDEXES_DIR_NAME + File.separator + index.name)
         }).orNull)
   }

@@ -19,7 +19,7 @@ import com.stratio.cassandra.lucene.BaseScalaTest
 import com.stratio.cassandra.lucene.BaseScalaTest._
 import com.stratio.cassandra.lucene.util.SchemaValidator._
 import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
+import org.scalatestplus.junit.JUnitRunner
 
 /** Tests for [[SchemaValidator]].
   *

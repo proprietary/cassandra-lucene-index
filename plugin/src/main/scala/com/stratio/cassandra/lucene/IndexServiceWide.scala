@@ -123,7 +123,7 @@ class IndexServiceWide(table: ColumnFamilyStore, index: IndexMetadata)
   override def query(dataRange: DataRange): Option[Query] = {
 
     // Check trivia
-    if (dataRange.isUnrestricted) return None
+    if (dataRange.isUnrestricted(table.metadata())) return None
 
     // Extract data range data
     val startPosition = dataRange.startKey

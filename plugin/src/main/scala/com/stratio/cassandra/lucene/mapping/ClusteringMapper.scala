@@ -38,7 +38,7 @@ import org.apache.lucene.search.FieldComparator.TermValComparator
 import org.apache.lucene.search._
 import org.apache.lucene.util.{AttributeSource, BytesRef}
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 /** Class for several clustering key mappings between Cassandra and Lucene.
   *

@@ -22,7 +22,7 @@ import com.stratio.cassandra.lucene.column.Column._
 import com.stratio.cassandra.lucene.BaseScalaTest
 import com.stratio.cassandra.lucene.BaseScalaTest._
 import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
+import org.scalatestplus.junit.JUnitRunner
 
 /** Tests for [[Column]].
   *

@@ -29,7 +29,7 @@ import org.apache.lucene.search.BooleanClause.Occur.SHOULD
 import org.apache.lucene.search.{BooleanQuery, Query, TermQuery}
 import org.apache.lucene.util.BytesRef
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.collection.mutable.ListBuffer
 
 /** Class for several primary key mappings between Cassandra and Lucene.

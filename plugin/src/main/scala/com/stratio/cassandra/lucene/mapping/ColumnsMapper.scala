@@ -29,7 +29,7 @@ import org.apache.cassandra.transport.ProtocolVersion
 import org.apache.cassandra.transport.ProtocolVersion.CURRENT
 import org.apache.cassandra.utils.ByteBufferUtil
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 /** Maps Cassandra rows to [[Columns]].
   *

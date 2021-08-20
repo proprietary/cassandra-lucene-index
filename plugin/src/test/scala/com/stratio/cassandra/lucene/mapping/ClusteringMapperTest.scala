@@ -19,7 +19,7 @@ import com.stratio.cassandra.lucene.BaseScalaTest
 import org.apache.cassandra.dht.Murmur3Partitioner
 import org.apache.lucene.util.BytesRef
 import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
+import org.scalatestplus.junit.JUnitRunner
 
 /** Tests for [[ClusteringMapper]].
   *

@@ -28,7 +28,7 @@ import org.apache.lucene.util.BytesRef
 import org.junit.Assert.assertEquals
 import org.junit.rules.TemporaryFolder
 import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
+import org.scalatestplus.junit.JUnitRunner
 
 /** Tests for [[PartitionedIndex]].
   *

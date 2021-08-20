@@ -29,7 +29,7 @@ import org.apache.cassandra.schema.{ColumnMetadata, IndexMetadata, TableMetadata
 import org.apache.commons.lang3.StringUtils.isBlank
 import org.apache.lucene.search.ScoreDoc
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 /** Class for several [[Expression]] mappings between Cassandra and Lucene.
   *

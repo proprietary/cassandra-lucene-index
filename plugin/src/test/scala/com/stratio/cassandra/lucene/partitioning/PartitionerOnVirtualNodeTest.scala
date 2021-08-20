@@ -20,7 +20,7 @@ import com.stratio.cassandra.lucene.IndexException
 import org.apache.cassandra.db.marshal.CompositeType
 import org.apache.cassandra.dht.Murmur3Partitioner
 import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
+import org.scalatestplus.junit.JUnitRunner
 
 /** Tests for [[PartitionerOnColumn]].
   *

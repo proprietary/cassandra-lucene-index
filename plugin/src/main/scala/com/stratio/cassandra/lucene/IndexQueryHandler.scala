@@ -15,9 +15,8 @@
  */
 package com.stratio.cassandra.lucene
 
-import java.lang.reflect.{Field, Modifier}
+import java.lang.reflect.{Field, Method, Modifier}
 import java.nio.ByteBuffer
-
 import com.stratio.cassandra.lucene.IndexQueryHandler._
 import com.stratio.cassandra.lucene.partitioning.Partitioner
 import com.stratio.cassandra.lucene.util.{Logging, TimeCounter}
@@ -28,15 +27,16 @@ import org.apache.cassandra.cql3.statements.schema.IndexTarget
 import org.apache.cassandra.cql3.statements.{BatchStatement, SelectStatement}
 import org.apache.cassandra.db.SinglePartitionReadCommand.Group
 import org.apache.cassandra.db._
+import org.apache.cassandra.db.aggregation.AggregationSpecification
 import org.apache.cassandra.db.filter.RowFilter.{CustomExpression, Expression}
 import org.apache.cassandra.db.partitions.PartitionIterator
 import org.apache.cassandra.exceptions.InvalidRequestException
 import org.apache.cassandra.service.{ClientState, LuceneStorageProxy, QueryState}
 import org.apache.cassandra.transport.messages.ResultMessage
-import org.apache.cassandra.transport.messages.ResultMessage.{Prepared, Rows}
+import org.apache.cassandra.transport.messages.ResultMessage.Rows
 import org.apache.cassandra.utils.{FBUtilities, MD5Digest}
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.collection.mutable
 
 
@@ -126,7 +126,7 @@ class IndexQueryHandler extends QueryHandler with Logging {
       return Map.empty
     }
 
-    val cfs = Keyspace.open(select.keyspace).getColumnFamilyStore(select.columnFamily)
+    val cfs = Keyspace.open(select.keyspace).getColumnFamilyStore(select.table.id)
     val indexes = cfs.indexManager.listIndexes.asScala.collect { case index: Index => index }
     expressions.forEach {
       case expression: CustomExpression =>
@@ -206,7 +206,8 @@ class IndexQueryHandler extends QueryHandler with Logging {
     // Read paging state and write it to query
     val pagingState = IndexPagingState.build(options.getPagingState, limit)
     val remaining = Math.min(page, pagingState.remaining)
-    val query = select.getQuery(options, filter, now, remaining, userPerPartitionLimit, page)
+    val query = select.getQuery(options, ClientState.forInternalCalls(), filter,
+      now, remaining, userPerPartitionLimit, page, select.getAggregationSpec(options))
     pagingState.rewrite(query)
 
     // Read data
@@ -227,7 +228,9 @@ class IndexQueryHandler extends QueryHandler with Logging {
         options,
         selectors,
         now.asInstanceOf[AnyRef],
-        page.asInstanceOf[AnyRef]).asInstanceOf[Rows]
+        page.asInstanceOf[AnyRef],
+        select.getAggregationSpec(options)
+      ).asInstanceOf[Rows]
       rows.result.metadata.setHasMorePages(pagingState.toPagingState)
       rows
     } finally {
@@ -239,13 +242,14 @@ class IndexQueryHandler extends QueryHandler with Logging {
 /** Companion object for [[IndexQueryHandler]]. */
 object IndexQueryHandler {
 
-  val processResults = classOf[SelectStatement].getDeclaredMethod(
+  val processResults: Method = classOf[SelectStatement].getDeclaredMethod(
     "processResults",
     classOf[PartitionIterator],
     classOf[QueryOptions],
     classOf[Selectors],
     classOf[Int],
-    classOf[Int])
+    classOf[Int],
+    classOf[AggregationSpecification])
   processResults.setAccessible(true)
 
   /** Sets this query handler as the Cassandra CQL query handler, replacing the previous one. */

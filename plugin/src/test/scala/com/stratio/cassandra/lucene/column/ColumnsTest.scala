@@ -17,7 +17,7 @@ package com.stratio.cassandra.lucene.column
 
 import com.stratio.cassandra.lucene.BaseScalaTest
 import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
+import org.scalatestplus.junit.JUnitRunner
 
 /** Tests for [[Column]].
   *
