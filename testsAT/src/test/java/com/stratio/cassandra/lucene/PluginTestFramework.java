@@ -27,7 +27,7 @@ public abstract class PluginTestFramework {
     static class NestedSingleton implements BeforeAllCallback, ExtensionContext.Store.CloseableResource {
 
         public static final String pluginCassandraVersion = System.getProperty("plugin.version", "4.1.0-1.0.0");
-        public static final String cassandraVersion = System.getProperty("cassandra.version", "4.1-rc1");
+        public static final String cassandraVersion = System.getProperty("cassandra.version", "4.1.0");
 
         private static volatile boolean disconnected = false;
         private static volatile boolean initialized = false;
