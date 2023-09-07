@@ -119,12 +119,14 @@ class IndexQueryHandler extends QueryHandler with Logging {
   def luceneExpressions(
       select: SelectStatement,
       options: QueryOptions): Map[Expression, Index] = {
-    val map = mutable.LinkedHashMap.empty[Expression, Index]
-    val expressions = select.getRowFilter(options).getExpressions
 
-    if (select.keyspace() == "system_virtual_schema") {
+    val keyspaceOfSelect = select.keyspace()
+    if (keyspaceOfSelect == "system_virtual_schema" || keyspaceOfSelect == "system_views") {
       return Map.empty
     }
+
+    val map = mutable.LinkedHashMap.empty[Expression, Index]
+    val expressions = select.getRowFilter(options).getExpressions
 
     val cfs = Keyspace.open(select.keyspace).getColumnFamilyStore(select.table.id)
     val indexes = cfs.indexManager.listIndexes.asScala.collect { case index: Index => index }
