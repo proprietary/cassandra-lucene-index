@@ -15,6 +15,7 @@
  */
 package com.stratio.cassandra.lucene
 
+import java.lang.Class
 import java.lang.reflect.{Field, Method, Modifier}
 import java.nio.ByteBuffer
 import com.stratio.cassandra.lucene.IndexQueryHandler._
@@ -261,7 +262,11 @@ object IndexQueryHandler {
         try {
           val field = classOf[ClientState].getDeclaredField("cqlQueryHandler")
           field.setAccessible(true)
-          val modifiersField = classOf[Field].getDeclaredField("modifiers")
+          // hack to make it work on Java 17 (won't work on Java 18+)
+          val getDeclaredFields0 = classOf[Class[_]].getDeclaredMethod("getDeclaredFields0", classOf[Boolean])
+          getDeclaredFields0.setAccessible(true)
+          val fields = getDeclaredFields0.invoke(classOf[Field], false).asInstanceOf[Array[Field]]
+          val modifiersField = fields.find(_.getName == "modifiers").get
           modifiersField.setAccessible(true)
           modifiersField.setInt(field, field.getModifiers & ~Modifier.FINAL)
           field.set(null, new IndexQueryHandler)
